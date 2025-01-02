@@ -20,14 +20,11 @@ def index():
     if request.method == 'POST':
         original_url = request.form['url']
         
-        # Проверяваме дали URL-ът вече съществува
         existing_url = URL.query.filter_by(original_url=original_url).first()
         if existing_url:
-            # Ако съществува, връщаме съществуващия кратък URL
             short_url = f"http://127.0.0.1:5000/{existing_url.short_url}"
             return render_template('index.html', short_url=short_url)
         
-        # Ако не съществува, създаваме нов
         new_url = URL(
             original_url=original_url,
             short_url=generate_short_url()
@@ -49,6 +46,12 @@ def redirect_to_url(short_url):
     url_object = URL.query.filter_by(short_url=short_url).first_or_404()
     
     return redirect(url_object.original_url)
+
+@app.route('/stats')
+def stats():
+    # Взимаме всички URL-и от базата данни
+    urls = URL.query.all()
+    return render_template('stats.html', urls=urls)
 
 if __name__ == "__main__":
     app.run(debug=True)
