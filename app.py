@@ -13,6 +13,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 class URL(db.Model):
+    __tablename__ = 'url'
+    
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     original_url = db.Column(db.String, nullable=False)
     short_url = db.Column(db.String, unique=True, nullable=False)
@@ -44,7 +46,7 @@ def index():
             return render_template('index.html', short_url=short_url)
         except:
             db.session.rollback()
-            return "Възникна грешка при добавянето на URL"
+            return "Couldn't add URL"
             
     return render_template('index.html')
 
