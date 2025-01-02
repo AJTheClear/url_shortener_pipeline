@@ -62,3 +62,6 @@ def stats():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+# ideas for future updates:
+#   add expiration date for urls
