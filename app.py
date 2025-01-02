@@ -49,7 +49,6 @@ def redirect_to_url(short_url):
 
 @app.route('/stats')
 def stats():
-    # Взимаме всички URL-и от базата данни
     urls = URL.query.all()
     return render_template('stats.html', urls=urls)
 
