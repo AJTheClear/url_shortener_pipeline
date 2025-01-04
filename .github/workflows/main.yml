@@ -99,11 +99,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Trivy Scan
-        uses: aquasecurity/trivy-action@v0.29.0
+        uses: aquasecurity/trivy-action@v0.11.0
         with:
           scan-type: 'fs'  # Set scan type to filesystem
-          path: '.'  # Path to the directory to scan (current directory)
-          severity: 'HIGH,CRITICAL'  # Set the severity levels you want to scan for
-          format: 'table'  # Output format (table, json, etc.)
-          exit-code: '1'  # Exit code for failing the job on vulnerabilities found
-          ignore-unfixed: true  # Ignore unfixed vulnerabilities
+          path: '.'
+          severity: 'HIGH,CRITICAL'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
