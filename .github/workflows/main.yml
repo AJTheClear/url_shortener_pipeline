@@ -92,4 +92,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN_FOR_GITHUB }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  
+  Trivy_Scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Trivy
+        uses: aquasecurity/trivy-action@v0.3.0
+        with:
+          scan-type: 'fs'  # Set scan type to filesystem
+          path: '.'
+          severity: 'HIGH,CRITICAL'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
