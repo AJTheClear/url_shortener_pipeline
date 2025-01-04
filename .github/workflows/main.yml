@@ -22,7 +22,7 @@ jobs:
       - name: Lint the code
         run: |
           . venv/bin/activate
-          flake8 .
+          flake8 --filename="*.py" --exclude="venv,migrations,templates" .
 
       - name: Upload code for subsequent jobs
         uses: actions/upload-artifact@v4
