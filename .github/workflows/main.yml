@@ -98,14 +98,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download and Install Trivy
-        run: |
-          # Download the latest version of Trivy
-          TRIVY_VERSION=0.58.1  # Specify the version you want to download
-          curl -sSL https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_$(uname -s)_$(uname -m).tar.gz | tar -xzv
-          chmod +x trivy  # Make the binary executable
-          mv trivy /usr/local/bin/  # Move Trivy to a directory in PATH
-
       - name: Run Trivy Scan
-        run: |
-          trivy fs --severity HIGH,CRITICAL --exit-code 1 --ignore-unfixed .  # Scan the current directory
+        uses: aquasecurity/trivy-action@v0.29.0
+        with:
+          scan-type: 'fs'  # Set scan type to filesystem
+          path: '.'  # Path to the directory to scan (current directory)
+          severity: 'HIGH,CRITICAL'  # Set the severity levels you want to scan for
+          format: 'table'  # Output format (table, json, etc.)
+          exit-code: '1'  # Exit code for failing the job on vulnerabilities found
+          ignore-unfixed: true  # Ignore unfixed vulnerabilities
