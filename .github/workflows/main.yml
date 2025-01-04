@@ -73,8 +73,8 @@ jobs:
 
       - name: Set up database
         run: |
-          chmod +x url_shortener/init-db.sh  # Make the script executable
-          ./url_shortener/init-db.sh  # Run the database initialization script
+          chmod +x init-db.sh  # Make the script executable
+          ./init-db.sh  # Run the database initialization script
 
       - name: Run tests with coverage
         run: |
