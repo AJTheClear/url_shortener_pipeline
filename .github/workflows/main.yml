@@ -73,7 +73,8 @@ jobs:
 
       - name: Set up database
         run: |
-          python setup_db.py  # Run the database initialization script
+          mkdir -p instance
+          python setup_db.py
 
       - name: Run tests with coverage
         run: |
