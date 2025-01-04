@@ -1,0 +1,33 @@
+name: URL Shortener CI/CD
+
+on: push
+
+jobs:
+  Build-and-Lint:
+    runs-on: ubuntu-latest
+    container: python:3.11
+    # needs: [Snyk_Scan, SonarCloud_Scan]
+    steps:
+      - name: Clone down repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python environment and install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8
+
+      - name: Lint the code
+        run: |
+          flake8 .
+
+      - name: Upload code for subsequent jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: code
+          path: .
+
+
+  
