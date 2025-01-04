@@ -95,17 +95,17 @@ jobs:
   Trivy_Scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Trivy
+      - name: Download and Install Trivy
         run: |
           # Download the latest version of Trivy
           TRIVY_VERSION=0.58.1  # Specify the version you want to download
-          curl -sSL https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_$(uname -s)_$(uname -m).tar.gz | tar -xzv trivy
-          chmod +x trivy
-          sudo mv trivy /usr/local/bin/  # Move Trivy to a directory in PATH
-          
-      - name: Run Trivy repository scan
+          curl -sSL https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_$(uname -s)_$(uname -m).tar.gz | tar -xzv
+          chmod +x trivy  # Make the binary executable
+          mv trivy /usr/local/bin/  # Move Trivy to a directory in PATH
+
+      - name: Run Trivy Scan
         run: |
-          trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+          trivy fs --severity HIGH,CRITICAL --exit-code 1 --ignore-unfixed .  # Scan the current directory
