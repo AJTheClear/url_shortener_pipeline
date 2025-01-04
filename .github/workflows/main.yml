@@ -100,9 +100,12 @@ jobs:
 
       - name: Install Trivy
         run: |
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
-          sudo mv trivy /usr/local/bin/
-
+          # Download the latest version of Trivy
+          TRIVY_VERSION=0.58.1  # Specify the version you want to download
+          curl -sSL https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_$(uname -s)_$(uname -m).tar.gz | tar -xzv trivy
+          chmod +x trivy
+          sudo mv trivy /usr/local/bin/  # Move Trivy to a directory in PATH
+          
       - name: Run Trivy repository scan
         run: |
           trivy fs --exit-code 1 --severity HIGH,CRITICAL .
