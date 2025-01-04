@@ -21,6 +21,7 @@ jobs:
 
       - name: Lint the code
         run: |
+          . venv/bin/activate
           flake8 .
 
       - name: Upload code for subsequent jobs
