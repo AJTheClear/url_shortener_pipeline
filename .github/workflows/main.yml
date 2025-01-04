@@ -71,6 +71,11 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
+      - name: Set up database
+        run: |
+          chmod +x url_shortener/init-db.sh  # Make the script executable
+          ./url_shortener/init-db.sh  # Run the database initialization script
+
       - name: Run tests with coverage
         run: |
           pytest --cov=app --cov-report=xml --cov-report=html
