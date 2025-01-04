@@ -95,15 +95,9 @@ jobs:
   Trivy_Scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -
       - name: Run Trivy Scan
-        uses: aquasecurity/trivy-action@main
-        with:
-          scan-type: 'fs'  # Set scan type to filesystem
-          path: '.'
-          severity: 'HIGH,CRITICAL'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
+        run: ./trivy fs --severity HIGH,CRITICAL --ignore-unfixed .
+      
