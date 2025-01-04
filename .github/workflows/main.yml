@@ -14,7 +14,7 @@ jobs:
       - name: Set up Python environment and install dependencies
         run: |
           python -m venv venv
-          source venv/bin/activate
+          . venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install flake8
