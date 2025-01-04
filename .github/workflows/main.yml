@@ -3,6 +3,30 @@ name: URL Shortener CI/CD
 on: push
 
 jobs:
+  Snyk_Scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Променено на основния файл с зависимости
+
+      - name: Install Snyk
+        run: pip install snyk
+
+      - name: Run Snyk test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk test
+
   Build-and-Lint:
     runs-on: ubuntu-latest
     container: python:3.11
