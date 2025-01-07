@@ -75,3 +75,5 @@ if __name__ == "__main__":
 #   add expiration date for urls
 #   add user support
 #   maybe swithc to postgres
+
+# if it fails do flask db migrate -m "Create url table" and then flask db migrate
