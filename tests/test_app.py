@@ -4,7 +4,9 @@ from app import app, db, URL
 
 @pytest.fixture
 def client():
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://jason2:jason2@localhost:5432/test_url_shortener'
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        'postgresql://jason2:jason2@localhost:5432/test_url_shortener'
+        )
     app.config['TESTING'] = True
 
     with app.test_client() as test_client:
@@ -18,7 +20,6 @@ def client():
             print("Finished upgrade()")
 
         yield test_client
-
 
 
 def test_index_get(client):
