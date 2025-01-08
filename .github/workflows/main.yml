@@ -87,7 +87,7 @@ jobs:
         env:
           GITHUB_ACTION_DATABASE_URL: "postgresql://jason2:jason2@postgres:5432/test_url_shortener"
         run: |
-          printenv  # This will print all environment variables
+          export GITHUB_ACTION_DATABASE_URL="postgresql://jason2:jason2@localhost:5432/url_shortener"
           pytest --cov=app --cov-report=xml --cov-report=html
 
       - name: Upload coverage report
