@@ -20,3 +20,20 @@ def test_example(client):
     assert app.config['SQLALCHEMY_DATABASE_URI'] == os.environ.get(
         'GITHUB_ACTION_DATABASE_URL'
         )
+    assert app.config['SQLALCHEMY_DATABASE_URI'] != (
+        "postgresql://jason2:jason2@localhost:5432/test_url_shortener"
+        )
+
+
+def test_stats_page(client):
+    """Test statistics page"""
+    assert app.config['TESTING'] is True
+    assert app.config['SQLALCHEMY_DATABASE_URI'] == os.environ.get(
+        'GITHUB_ACTION_DATABASE_URL'
+        )
+    assert app.config['SQLALCHEMY_DATABASE_URI'] != (
+        "postgresql://jason2:jason2@localhost:5432/test_url_shortener"
+        )
+    rv = client.get('/stats')
+    assert rv.status_code == 200
+    assert b'URLShortener Statistics' in rv.data
