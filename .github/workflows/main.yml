@@ -59,7 +59,7 @@ jobs:
     needs: Build-and-Lint
     
     services:
-      db:
+      postgres:
         image: postgres:latest
         env:
           POSTGRES_USER: jason2
@@ -85,7 +85,7 @@ jobs:
 
       - name: Run tests with coverage
         env:
-          GITHUB_ACTION_DATABASE_URL: postgresql://jason2:jason2@db:5432/test_url_shortener
+          GITHUB_ACTION_DATABASE_URL: "postgresql://jason2:jason2@postgres:5432/test_url_shortener"
         run: |
           pytest --cov=app --cov-report=xml --cov-report=html
 
