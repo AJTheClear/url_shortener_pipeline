@@ -72,11 +72,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
-      - name: Set up database
-        run: |
-          mkdir -p instance
-          python setup_db.py
-
       - name: Run tests with coverage
         run: |
           pytest --cov=app --cov-report=xml --cov-report=html
