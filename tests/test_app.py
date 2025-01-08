@@ -4,16 +4,21 @@ from app import app, db, URL
 
 @pytest.fixture
 def client():
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://jason2:jason2@localhost:5432/test_url_shortener'
     app.config['TESTING'] = True
 
-    with app.test_client() as client:
+    with app.test_client() as test_client:
         with app.app_context():
-            db.create_all()
-        yield client
-
-        with app.app_context():
+            print("Starting drop_all()")
             db.drop_all()
+            print("Finished drop_all(), starting upgrade()")
+            from flask_migrate import upgrade
+            upgrade()
+            db.create_all()
+            print("Finished upgrade()")
+
+        yield test_client
+
 
 
 def test_index_get(client):
