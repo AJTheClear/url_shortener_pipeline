@@ -8,10 +8,10 @@ def client():
 
     with app.test_client() as test_client:
         with app.app_context():
-            app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-                'GITHUB_ACTION_DATABASE_URL',
-                "postgresql://jason2:jason2@localhost:5432/url_shortener"
-                )
+            # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+            #     'GITHUB_ACTION_DATABASE_URL',
+            #     "postgresql://jason2:jason2@localhost:5432/url_shortener"
+            #     )
             app.config['TESTING'] = True
 
             print("Starting drop_all()")
