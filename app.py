@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from datetime import datetime
 import random
 import string
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-url = 'sqlite:///' + os.path.join(basedir, 'instance', 'urls.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = url
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    "postgresql://jason2:jason2@localhost:5432/url_shortener"
+)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -19,7 +19,7 @@ class URL(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     original_url = db.Column(db.String, nullable=False)
     short_url = db.Column(db.String, unique=True, nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
     clicks = db.Column(db.Integer, default=0)
 
 
