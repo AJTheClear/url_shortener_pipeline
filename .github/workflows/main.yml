@@ -57,6 +57,17 @@ jobs:
   SonarCloud_Scan:
     runs-on: ubuntu-latest
     needs: Build-and-Lint
+    
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: jason2
+          POSTGRES_PASSWORD: jason2
+          POSTGRES_DB: test_url_shortener
+        ports:
+          - 5432:5432
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -73,6 +84,8 @@ jobs:
           pip install pytest pytest-cov
 
       - name: Run tests with coverage
+        env:
+          GITHUB_ACTION_DATABASE_URL: postgresql://jason2:jason2@postgres:5432/test_url_shortener
         run: |
           pytest --cov=app --cov-report=xml --cov-report=html
 
