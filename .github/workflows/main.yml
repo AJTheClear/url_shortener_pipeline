@@ -87,8 +87,15 @@ jobs:
         env:
           GITHUB_ACTION_DATABASE_URL: "postgresql://jason2:jason2@postgres:5432/test_url_shortener"
         run: |
-          export GITHUB_ACTION_DATABASE_URL="postgresql://jason2:jason2@localhost:5432/url_shortener"
-          python -c "from your_flask_app import app; with app.app_context(): print('Testing - Current SQLALCHEMY_DATABASE_URI:', app.config['SQLALCHEMY_DATABASE_URI'], 'Testing mode:', app.config['TESTING'])"  # Replace 'your_flask_app' with your actual app module          
+          export GITHUB_ACTION_DATABASE_URL="postgresql://jason2:jason2@postgres:5432/test_url_shortener"
+          python << END
+          from app import app
+          import os
+          with app.app_context():
+              print("Current SQLALCHEMY_DATABASE_URI:", app.config['SQLALCHEMY_DATABASE_URI'])
+              print("Testing mode:", app.config['TESTING'])
+              print("GITHUB_ACTION_DATABASE_URL", os.environ.get('GITHUB_ACTION_DATABASE_URL'))
+          END
           pytest --cov=app --cov-report=xml --cov-report=html
 
       - name: Upload coverage report
