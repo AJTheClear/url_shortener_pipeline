@@ -83,14 +83,11 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
-      - name: Print all environment variables
-        run: |
-          printenv  # This will print all environment variables
-
       - name: Run tests with coverage
         env:
           GITHUB_ACTION_DATABASE_URL: "postgresql://jason2:jason2@postgres:5432/test_url_shortener"
         run: |
+          printenv  # This will print all environment variables
           pytest --cov=app --cov-report=xml --cov-report=html
 
       - name: Upload coverage report
