@@ -88,6 +88,7 @@ jobs:
           GITHUB_ACTION_DATABASE_URL: "postgresql://jason2:jason2@postgres:5432/test_url_shortener"
         run: |
           export GITHUB_ACTION_DATABASE_URL="postgresql://jason2:jason2@localhost:5432/url_shortener"
+          python -c "from app import app; with app.app_context(): print('Testing - Current SQLALCHEMY_DATABASE_URI:', app.config['SQLALCHEMY_DATABASE_URI'], 'Testing mode:', app.config['TESTING'])"  
           pytest --cov=app --cov-report=xml --cov-report=html
 
       - name: Upload coverage report
