@@ -6,9 +6,9 @@ import string
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    "postgresql://jason2:jason2@localhost:5432/url_shortener"
-)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', "postgresql://jason2:jason2@localhost:5432/url_shortener"
+    )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -75,5 +75,3 @@ if __name__ == "__main__":
 #   add expiration date for urls
 #   add user support
 #   maybe swithc to postgres
-
-# if it fails do flask db migrate -m "Create url table" and then flask db migrate
