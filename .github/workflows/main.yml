@@ -1,7 +1,9 @@
 name: URL Shortener CI/CD
 
-on: push
-
+on: 
+  push:
+    branches:
+      - main
 jobs:
   Snyk_Scan:
     runs-on: ubuntu-latest
