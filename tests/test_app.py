@@ -7,9 +7,6 @@ def client(scope='function'):
 
     with app.test_client() as test_client:
         with app.app_context():
-            print("Starting drop_all()")
-            db.drop_all()
-            print("Finished drop_all(), starting upgrade()")
             from flask_migrate import upgrade
             upgrade()
             db.create_all()
