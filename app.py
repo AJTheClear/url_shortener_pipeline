@@ -6,9 +6,15 @@ import string
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', "postgresql://jason2:jason2@localhost:5432/url_shortener"
-    )
+if os.environ.get('GITHUB_ACTION_DATABASE_URL'):
+    uri = os.environ['GITHUB_ACTION_DATABASE_URL']
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
+    app.config['TESTING'] = True
+elif os.environ.get('DATABASE_URL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+else:
+    uri = "postgresql://jason2:jason2@localhost:5432/url_shortener"
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

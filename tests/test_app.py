@@ -1,14 +1,9 @@
-import os
 import pytest
 from app import app, db, URL
 
 
 @pytest.fixture
 def client(scope='function'):
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-        'DATABASE_URL', "postgresql://jason2:jason2@localhost:5432/test_url_shortener"
-    )
-    app.config['TESTING'] = True
 
     with app.test_client() as test_client:
         with app.app_context():
