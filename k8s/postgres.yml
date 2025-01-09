@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: db-deployment
   labels:
     app: db
 spec:
-  replicas: 1
+  serviceName: "db"
+  replicas: 2
   selector:
     matchLabels:
       app: db
@@ -35,6 +36,18 @@ spec:
             secretKeyRef:
               name: db-secret
               key: db-db
+        volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
 
 ---
 apiVersion: v1
