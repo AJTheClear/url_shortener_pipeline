@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from dotenv import load_dotenv
 import random
 import string
 import os
 
+load_dotenv()
 app = Flask(__name__)
 if os.environ.get('GITHUB_ACTION_DATABASE_URL'):
     uri = os.environ['GITHUB_ACTION_DATABASE_URL']
@@ -13,7 +15,7 @@ if os.environ.get('GITHUB_ACTION_DATABASE_URL'):
 elif os.environ.get('DATABASE_URL'):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 else:
-    uri = "postgresql://jason2:jason2@localhost:5432/url_shortener"
+    uri = os.getenv('LOCALHOST_DATABASE_URL')
     app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
