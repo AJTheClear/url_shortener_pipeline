@@ -12,7 +12,7 @@ def client():
             #     "postgresql://jason2:jason2@localhost:5432/url_shortener"
             #     )
             app.config['TESTING'] = True
-
+            app.config['SQLALCHEMY_DATABASE_URI'] = "pp"
             print("Starting drop_all()")
             db.drop_all()
             print("Finished drop_all(), starting upgrade()")
