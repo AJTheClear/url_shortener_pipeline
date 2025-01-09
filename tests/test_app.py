@@ -1,19 +1,24 @@
 import pytest
 import psycopg2
+import time
 from app import app, db, URL
 
 
-@pytest.fixture
-def client(scope='function'):
-
-    with app.test_client() as test_client:
-        with app.app_context():
-            from flask_migrate import upgrade
-            upgrade()
-            db.create_all()
-            print("Finished upgrade()")
-
-        yield test_client
+@pytest.fixture(scope='function')
+def client():
+    retries = 5
+    delay = 2
+    for i in range(retries):
+        try:
+            with app.test_client() as test_client:
+                with app.app_context():
+                    db.drop_all()
+                    db.create_all()
+                    return test_client
+        except Exception as e:
+            print(f"Retry {i + 1}/{retries}: {e}")
+            time.sleep(delay)
+    raise Exception("Database not ready after retries")
 
 
 def test_index_get(client):
