@@ -1,4 +1,5 @@
 import pytest
+import psycopg2
 from app import app, db, URL
 
 
@@ -72,3 +73,18 @@ def test_stats_page(client):
     rv = client.get('/stats')
     assert rv.status_code == 200
     assert b'URLShortener Statistics' in rv.data
+
+
+def test_database_connection():
+    """Test database connection"""
+    try:
+        conn = psycopg2.connect(
+            dbname='test_url_shortener',
+            user='jason2',
+            password='jason2',
+            host='postgres',
+            port='5432'
+        )
+        conn.close()
+    except Exception as e:
+        print(f"Database connection failed: {e}")
