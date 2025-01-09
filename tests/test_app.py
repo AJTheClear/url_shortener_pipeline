@@ -1,4 +1,5 @@
 import psycopg2
+import os
 from app import app  # , db, URL, generate_short_url
 
 
@@ -9,11 +10,11 @@ def test_database_connection():
     app.config['TESTING'] = True
     try:
         conn = psycopg2.connect(
-            dbname='test_url_shortener',
-            user='jason2',
-            password='jason2',
-            host='postgres',
-            port='5432'
+            dbname=os.getenv('DBNAME'),
+            user=os.getenv('USER'),
+            password=os.getenv('PASSWORD'),
+            host=os.getenv('HOST'),
+            port=os.getenv('PORT')
         )
         conn.close()
     except Exception as e:
