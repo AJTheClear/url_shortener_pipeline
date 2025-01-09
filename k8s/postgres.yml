@@ -1,32 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-deployment
+  name: db-deployment
   labels:
-    app: postgres
+    app: db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: db
   template:
     metadata:
       labels:
-        app: postgres
+        app: db
     spec:
       containers:
-      - name: postgresdb
+      - name: db
         image: postgres:latest
         ports:
         - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          valueFrom: 
+            secretKeyRef:
+              name: db-secret
+              key: db-user
+        - name: POSTGRES_PASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: db-secret
+              key: db-pass
+        - name: POSTGRES_DB
+          valueFrom: 
+            secretKeyRef:
+              name: db-secret
+              key: db-db
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-service
+  name: db-service
 spec:
   selector:
-    app: postgres
+    app: db
   ports:
     - protocol: TCP
       port: 5432

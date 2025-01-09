@@ -22,7 +22,7 @@ spec:
         env:
         - name: DATABASE_URL
           valueFrom: 
-            configMapKeyref:
+            configMapKeyRef:
               name: db-config
               key: db-url
 ---
