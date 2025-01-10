@@ -6,7 +6,9 @@ metadata:
     app: db
 spec:
   serviceName: "db"
-  replicas: 2
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: db

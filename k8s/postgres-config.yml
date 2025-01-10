@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: db-config
-data:
-  db-url: postgresql://jason2:jason2@db-service:5432/url_shortener
